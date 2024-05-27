@@ -28,7 +28,7 @@ void ticket::cancel_ticket(shared_ptr<user> current)
 	}
 	if(temp->ticket_obj->current_status[0]!='W')
 	{
-		ticket::cancel_required_function(temp->ticket_obj);
+		//ticket::cancel_required_function(temp->ticket_obj);
 		temp->ticket_obj->current_status = "CANCELLED";
 	}
 	else
@@ -69,7 +69,7 @@ void ticket::cancel_required_function(ticket* temp)
 	{
 		if(j->first==temp->name and j->second->choose_date.date == temp->choose_date.date and j->second->choose_date.month == temp->choose_date.month and j->second->choose_date.year == temp->choose_date.year)
 		{
-			if(j->second->waiting_list[temp->class_name].size()!=0)
+			if(false)//j->second->waiting_list[temp->class_name].size())
 			{
 				//to add deleted person seat no to 1st person in waiting list
 				j->second->waiting_list[temp->class_name][0]->perference = temp->perference;

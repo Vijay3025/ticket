@@ -440,7 +440,7 @@ void passenger_ticket(shared_ptr<user> current,cal_date* choose_date,string trai
 		    cout<<"Kilometer\t   : "<<temp->ticket_obj->kilo<<"\nDeparture\t   : "<<temp->ticket_obj->starting_time<<endl;
 		    cout<<"Arrival\t\t   : "<<temp->ticket_obj->ending_time<<"\nDate of Journey    : "<<temp->ticket_obj->choose_date.date<<"-";
 		    cout<<temp->ticket_obj->choose_date.month<<"-"<<temp->ticket_obj->choose_date.year<<"\nbooked status\t   : "<<temp->ticket_obj->booked_status;
-			if(temp->ticket_obj->perference!="NULL"	)
+			if(temp->ticket_obj->current_status[0]!='W')
 			{
 				cout<<"/"<<temp->ticket_obj->perference<<endl;
 			}	
