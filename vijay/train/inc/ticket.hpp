@@ -161,6 +161,7 @@ class ticket : public Passenger//, public train   //ticket
 		static void cancel_waiting_list_ticket(ticket* temp,int number_waiting_list);
 		static void cancel_required_function(ticket* temp);
 		static Passenger* identify_which_passenger(shared_ptr<user> current);
+		void cancel(ticket * temp,ticket * comp,int state,map<string,train *>*);
 }; 
 
 

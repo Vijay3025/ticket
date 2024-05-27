@@ -5,7 +5,7 @@ extern map<string,train*> instance;
 //get date to book
 cal_date checking_date()
 {
-    cout<<"\nReservation date upto 31.07.24"<<endl; 
+    cout<<"\nReservation date upto 01.05.24 and 31.08.24"<<endl; 
     cal_date date1;
     date1.date = 31;
     date1.month = 7;
