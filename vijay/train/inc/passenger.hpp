@@ -1,3 +1,7 @@
+#ifndef PASSENGER_HPP
+#define PASSENGER_HPP
+#include "header.hpp"
+
 #include"main.hpp"
 #include"user.hpp"
 
@@ -25,3 +29,5 @@ void insert_1(shared_ptr<user> user_obj,shared_ptr<first_checking> first);
 void insert_2(shared_ptr<user> user_obj,shared_ptr<first_checking> first);
 void insert_3(shared_ptr<user> user_obj,shared_ptr<first_checking> first);
 void linked_list(shared_ptr<first_checking> first,shared_ptr<user> user1);
+
+#endif

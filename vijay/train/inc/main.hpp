@@ -1,12 +1,10 @@
-#include<iostream>
-#include<fstream>
-#include<string>
-#include<vector>
-#include<memory>
-#include<utility>
+#ifndef MAIN_HPP
+#define MAIN_HPP
 
-using namespace std;
+#include "header.hpp"
+
+
 typedef unsigned char byte_1;
 
 
-
+#endif

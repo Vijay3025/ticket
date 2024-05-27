@@ -1,24 +1,39 @@
-#include"passenger.hpp"
+#include "passenger.hpp"
 
 vector<shared_ptr<first_checking>>vector_first;
 
 void user::sign_up()
 {
     cout<<"Enter your name : ";
-    cin>>name;
-    cout<<"Age : ";
-    cin>>age;
+    getline(cin,name);
+    while(1)
+    {
+        cout<<"enter a age : "<<endl;
+        age=input();
+        if(age>=5 and age<=60)
+        {
+            break;
+        }
+        else
+        {
+            cout<<"Enter an age between 5 and 60\n";
+        }
+    }
     cout<<"Gender : ";
-    cin>>gender;
+    getline(cin,gender);
     cout<<"Enter your email address : ";
-    cin>>email;
+    getline(cin,email);
     cout<<"Create 4 digit login password : ";
-    cin>>password;
+    getline(cin,password);
     cout<<"Re-enter your login password : ";
-    cin>>password1;
+    getline(cin,password1);
     if (password1==password)
     {
-        system("clear");
+    		if(password.size()<4)
+    		{
+    			cout<<"Enter 4 digit password\n";
+    			return;
+    		}
         cout<<"Successfully created "<<endl;
         ofstream out("user_data.txt",ios::app);
         if(!out.is_open())
@@ -30,10 +45,11 @@ void user::sign_up()
     }
     else
     {
-        cout<<"Incorrect password";
-        sign_up();
+        cout<<"password mismatch\n";
+        return;
     }
 }
+
 
 
 void insert_1(shared_ptr<user> user_obj,shared_ptr<first_checking> first)
@@ -47,6 +63,7 @@ void insert_1(shared_ptr<user> user_obj,shared_ptr<first_checking> first)
         insert_2(user_obj,first->right);
     }
 }
+
 void insert_2(shared_ptr<user> user_obj,shared_ptr<first_checking> first)
 {
     if(user_obj->gender[0]=='m')
@@ -58,6 +75,7 @@ void insert_2(shared_ptr<user> user_obj,shared_ptr<first_checking> first)
         insert_3(user_obj,first->right);
     }
 }
+
 void insert_3(shared_ptr<user> user_obj,shared_ptr<first_checking> first)
 {
     if(user_obj->getEmail()[0]<='m') 
@@ -68,7 +86,6 @@ void insert_3(shared_ptr<user> user_obj,shared_ptr<first_checking> first)
     else
     {
         linked_list(first->right,user_obj);
-
     }
     for(int i=0;i<vector_first.size();i++)
     {
@@ -87,19 +104,17 @@ void insert_3(shared_ptr<user> user_obj,shared_ptr<first_checking> first)
         vector_first.push_back(first->left);
         vector_first.push_back(first->right);
     }
-
 }
 
 shared_ptr<user> user::sign_in(shared_ptr<first_checking> first)
 {
     string check_email;
-    int check_pass;
-    system("clear");
+    string check_pass;
     cout<<"LOGIN PAGE"<<endl<<endl;
     cout<<"Enter your email id : ";
-    cin>>check_email;
+    getline(cin,check_email);
     cout<<"Enter your login password : ";
-    cin>>check_pass;
+    getline(cin,check_pass);
     shared_ptr<user_linked> temp=NULL;
     if (check_email[0]<='m')
     {
@@ -112,7 +127,6 @@ shared_ptr<user> user::sign_in(shared_ptr<first_checking> first)
                 {
                     return temp->user_obj;
                 }
-
                 temp = temp->next;
             }
         }
@@ -122,14 +136,12 @@ shared_ptr<user> user::sign_in(shared_ptr<first_checking> first)
         for(auto k = 1; k< vector_first.size();k+=2)
         {
             temp = vector_first[k]->head;
-            
             while(temp!=NULL)
             {
                 if(temp->user_obj->email==check_email and temp->user_obj->password==check_pass)
                 {
                     return temp->user_obj;
                 }
-
                 temp = temp->next;
             }
         }
@@ -148,8 +160,8 @@ void user::sign_up_static(shared_ptr<first_checking> first)
         cout<<"File can't open"<<endl;
         exit(0);
     }
-    string name,gender,email;
-    int age,password,password1;
+    string name,gender,email,password;
+    int age,password1;
     while(true)
     {
         if(!(in>>name>>age>>gender>>email>>password))
@@ -165,7 +177,6 @@ void user::sign_up_static(shared_ptr<first_checking> first)
 
 void linked_list(shared_ptr<first_checking> first,shared_ptr<user> user1)
 {
-    
     if(first->head==NULL)
     {
         shared_ptr<user_linked> head(new user_linked);

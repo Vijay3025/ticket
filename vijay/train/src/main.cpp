@@ -1,10 +1,12 @@
+#include "main.hpp"
 #include"passenger.hpp"
 #include"ticket.hpp"
+extern void train_related_function(train_join *linked);
 
 int main()
 {
     //typedef 
-    byte_1 choice;
+    int choice;
 
     //binary tree memory allocating using smart pointer (shared one)
     shared_ptr<first_checking> first(new first_checking);
@@ -35,18 +37,18 @@ int main()
     while(true)
     {
         cout<<"1. sign-up\t2. sign-in\t3. train_related_function\t4. exit"<<endl;
-        cin>>choice;
+        choice=input();
         shared_ptr<user> current_user = nullptr;
         switch (choice)
         {
-        case '1':
+        case 1:
         {
             shared_ptr<user> user_obj(new user);
             user_obj->sign_up();
             insert_1(user_obj,first);
             break;
         }
-        case '2':
+        case 2:
         {
             current_user = user::sign_in(first);
             if(current_user!=NULL)
@@ -60,18 +62,38 @@ int main()
             }
             break;
         }
-		case '3':
+		case 3:
 		{
-			train_related_function(linked)
+			train_related_function(linked);
 			break;
 		}
 
-        default:
+       	case 4:
             exit(1);
-        }
+        
+        default:
+        		continue;
+        	}
     }
     
 }
 
 
-
+int input()
+{
+	int in;
+	string word;
+	while(1)
+	{
+		getline(cin,word);
+		stringstream copy(word);
+		if(copy>>in && copy.eof())
+		{
+			return in;
+		}
+		else
+		{
+			cout<<"Enter a number  :  ";
+		}
+	}
+}

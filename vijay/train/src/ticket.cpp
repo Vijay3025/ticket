@@ -1,4 +1,6 @@
 #include"ticket.hpp"
+int num = 123456;       //pnr
+int train_num = 34567;
 
 train_join* train_linked_list::create_train()
 {

@@ -14,6 +14,9 @@ INCDIR = inc
 
 EXEC = train
 
+
+
+	
 all : clean $(EXEC)
 
 
@@ -27,3 +30,6 @@ $(EXEC): $(OBJS)
 clean:
 	rm -f $(OBJDIR)/*.o $(EXEC) $(output)
 	
+	
+target : 
+	$(CC) $(SRCDIR)/*.cpp -I$(INCDIR)

@@ -1,19 +1,16 @@
+#ifndef TICKET_HPP
+#define TICKET_HPP
 
-#include"user.hpp"
-#include<map>
+#include "header.hpp"
+#include "user.hpp"
+
 
 
 struct train_join;
 struct all_pass_linking;
-class user;
-class ticket;
-class Passenger;
-class train_linked_list;
-class train;
-class seat_arrange;
 
-int num = 123456;       //pnr
-int train_num = 34567;  //train_num
+extern int num;
+
 
 struct seat             // preference and availablity
 {
@@ -31,13 +28,12 @@ struct cal_date         //store date
 
 class Passenger   
 {
+public:
 	string name;
 	int age;
 	string gender;
-    public:
         Passenger() : name(""),age(0),gender(""){}
 		friend void getting_passenger_details(shared_ptr<user> current,Passenger pass_obj);
-
 };
 
 class seat_arrange
@@ -48,15 +44,16 @@ class seat_arrange
 		vector<seat> seat_3a;
 
 		//default constructor
-		seat_arrange():seat_2s(120),seat_sl(72),seat_3a(56){};
+		seat_arrange():seat_2s(6),seat_sl(9),seat_3a(9){};
 
 		//copy constructor
-		seat_arrange(const seat_arrange &other):seat_2s(other.seat_2s),seat_sl(other.seat_sl),seat_3a(other.seat_3a){};
-		static void seat_arrangement();
-		static void seat_arrangement_sl(seat_arrange&);
-		static void seat_arrangement_2s(seat_arrange&);
-		static void seat_arrangement_3a(seat_arrange&);
-		pair<int,string> seat_map(string in_class,train* );
+		//seat_arrange(const seat_arrange &other):seat_2s(other.seat_2s),seat_sl(other.seat_sl),seat_3a(other.seat_3a){};
+		void seat_arrangement();
+		void seat_arrangement_sl();
+		void seat_arrangement_2s();
+		void seat_arrangement_3a();
+		
+		pair<int,string> seat_map(string in_class,train* ,vector<string>&,int);
 		int checking_sleeper_upperLower(int var);
 		int checking_sleeper_ACupperLower(int var);
 };
@@ -73,17 +70,17 @@ class train_linked_list : public seat_arrange   //parent train class
 		//default
         train_linked_list():seat_arrange()
         {
-            string class_name[5] = {"2S","SL","3A","2A","1A"};
-            int   seat[5]        = {120,72,56,32,20};
-            float price[5]       = {0.5,0.75,1.0,2.0,2.75};
-            for(int i=0;i<5;i++)
+            string class_name[3] = {"2S","SL","3A"};
+            int   seat[3]        = {6,9,9};
+            float price[3]       = {0.5,0.75,1.0};
+            for(int i=0;i<3;i++)
             {
                 train_class[class_name[i]] = {seat[i],price[i]};
             }
         };
 
 		//parameterized 
-		train_linked_list(string name,string place,int train_num):train_name(name),train_place(place)
+		train_linked_list(string name,string place):train_name(name),train_place(place)
 		{
 			string class_name[5] = {"2S","SL","3A","2A","1A"};
             int   seat[5]        = {120,72,56,32,20};
@@ -95,8 +92,7 @@ class train_linked_list : public seat_arrange   //parent train class
 		};
 
 		//copy
-		train_linked_list(const train_linked_list& other)
-		:seat_arrange(other),train_class(other.train_class){};
+		//train_linked_list(const train_linked_list& other):seat_arrange(other),train_class(other.train_class){};
 		
 		//function
         string getname() {return train_name;}
@@ -118,7 +114,7 @@ class train : public train_linked_list   //train_instance class extra date
 		map<string,int> waiting_list_map;
         all_pass_linking *head;
 		map<string,vector<ticket*>> waiting_list;
-		vector<pair<string,pair<string,string>>> intermediate;
+		vector<pair<string,pair<string,pair<string,string>>>> intermediate;
 		//deafult constructor
         train():head(nullptr),train_linked_list()
 		{
@@ -130,17 +126,21 @@ class train : public train_linked_list   //train_instance class extra date
 			waiting_list_map["1A"] = 1;
 		}
 		//copy constructor
-		train(const train &other):head(other.head),train_linked_list(other),choose_date(other.choose_date),waiting_list_map(other.waiting_list_map),intermediate(other.intermediate){};
+		//train(const train &other):head(other.head),train_linked_list(other),choose_date(other.choose_date),waiting_list_map(other.waiting_list_map),intermediate(other.intermediate){};
 		//function
-		pair<string,string> intermediate_booking(string starting_kilo,string in_class);
-		void intermediate_booking_adding(string starting_kilo,string seat,string perference);
-		int intermediate_seat_availability(string starting_kilo,string in_class);
+		// pair<string,string> intermediate_booking(string starting_kilo,string in_class,string);
+		pair<string,string> intermediate_booking_1(string starting_kilo,string in_class,string);
+		void intermediate_booking_adding(string starting_kilo,string seat,string perference,string);
+		// int intermediate_seat_availability(string starting_kilo,string in_class);
+		int intermediate_seat_count(string starting_kilo,string in_class);
+		int cancel_intermediate_add(ticket *);
 };  
 
-class ticket : public Passenger, public train   //ticket
+class ticket : public Passenger//, public train   //ticket
 {
     public:
         int pnr;
+        string name;
         string starting_time;
         string ending_time;
         string class_name;
@@ -152,6 +152,10 @@ class ticket : public Passenger, public train   //ticket
 		string status;
 		string current_status;
 		string booked_status;
+		string start_kilo;
+		string ending_kilo;
+		cal_date choose_date;
+		string kilo;
         ticket():Passenger(),pnr(num++){};
 		static void cancel_ticket(shared_ptr<user> current);
 		static void cancel_waiting_list_ticket(ticket* temp,int number_waiting_list);
@@ -172,7 +176,7 @@ struct all_pass_linking  //all ticket link to train instance
     all_pass_linking* next;
 };
 
-void getting_passenger_details(shared_ptr<user> current,Passenger pass_obj);
+void getting_passenger_details(shared_ptr<user> current);
 
 void getting_information();
 
@@ -180,17 +184,18 @@ int selection(train_join* linked,shared_ptr<user>);
 
 cal_date checking_date();
 
-pair<int,string> first_time(train_linked_list* train_obj,cal_date* choose_date,string class_train,ticket*);
+pair<int,string> first_time(train_linked_list* train_obj,cal_date* choose_date,string class_train,ticket*,vector<string> all_detail,string);
 
-byte_1 instance_checking(train_join* temp,cal_date* choose_date,string in_class,vector<string> all_detail,shared_ptr<user> current,int book,int who);
+string instance_checking(train_join* temp,cal_date* choose_date,string in_class,vector<string> all_detail,shared_ptr<user> current,int book,int who);
 
-byte_1 instance_checking_first(train_join* temp,string in_class,vector<string> all_detail,cal_date* choose_date,shared_ptr<user> current,int book)
+string instance_checking_first(train_join* temp,string in_class,vector<string> all_detail,cal_date* choose_date,shared_ptr<user> current,int book);
 
+int parent_train_selecting(string source,string destination,train_join *linked);
 
+void passenger_ticket(shared_ptr<user> current,cal_date* choose_date,string train_name);
+// extern int intermediate_seat_availability(string starting_kilo,string in_class);
 
+void split(vector<string> *kilos,stringstream &kilo_obj,char delimiter);
+void checking_in_AllRouteVector(string place);
 
-
-
-
-
-
+#endif

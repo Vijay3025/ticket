@@ -1,6 +1,7 @@
-
 #ifndef USER
-#define USER1
+#define USER
+
+#include "header.hpp"
 #include"ticket.hpp"
 #include"main.hpp"
 
@@ -20,9 +21,9 @@ struct link_train_pass  //user to link all ticket
 
 class user
 {
-    int password1;
+    string password1;
     string email;
-    int password;
+    string password;
 	
     public:
         string name;
@@ -32,12 +33,12 @@ class user
 		vector<pair<Passenger*,bool>> pass_list;
 
         //parameterized constructor
-        user(string name1,int age,string gender,string email,int password):
+        user(string name1,int age,string gender,string email,string password):
         name(name1),age(age),gender(gender),email(email),password(password),head(nullptr){} 
 
         // default constructor giving some value
         user()
-		:name(""),age(0),gender(""),email(""),password(0),password1(0),head(nullptr){};
+		:name(""),age(0),gender(""),email(""),password("0"),password1("0"),head(nullptr){};
 
 		//copy constructor 
 		user(const user& other)
@@ -45,7 +46,7 @@ class user
 			head(other.head){};
 
         string getEmail() { return email; }
-        int getPass() { return password; }
+        string getPass() { return password; }
         void sign_up();        
 		static void sign_up_static(shared_ptr<first_checking>);
 		static shared_ptr<user> sign_in(shared_ptr<first_checking>);
@@ -55,6 +56,6 @@ class user
 
 void booking(shared_ptr<user>,train_join*);
 void my_booking(shared_ptr<user> current);
-ticket* linking(shared_ptr<user> current,vector<string> all_detail,int index);
+ticket* linking(shared_ptr<user> current,vector<string> all_detail);
 
 #endif 
