@@ -22,7 +22,7 @@ int main()
     first->right->left->right = make_shared<first_checking>();
     first->right->right->left = make_shared<first_checking>();
     first->right->right->right = make_shared<first_checking>();
-
+    //hello
     // cout<<"First count ............"<<first.use_count()<<endl;
 
     user::sign_up_static(first);
